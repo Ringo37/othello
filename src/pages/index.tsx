@@ -15,15 +15,15 @@ const Home = () => {
   ]);
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
-  const newBoard = structuredClone(board);
-  newBoard[y][x] = turnColor;
-  if (turnColor===1){
-    setTurnColor(2)
-  }else{
-    setTurnColor(1)
-  }
-  setBoard(newBoard);
-};
+    const newBoard = structuredClone(board);
+    newBoard[y][x] = turnColor;
+    if (turnColor === 1) {
+      setTurnColor(2);
+    } else {
+      setTurnColor(1);
+    }
+    setBoard(newBoard);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.boardStyle}>
