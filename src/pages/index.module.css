@@ -16,7 +16,7 @@
   flex-wrap: wrap;
 }
 
-.cellStyle{
+.cellStyle {
   width: 80px;
   height: 80px;
   display: flex;
@@ -25,7 +25,7 @@
   justify-content: center;
 }
 
-.stoneStyle{
+.stoneStyle {
   width: 56px;
   height: 56px;
   background-color: white;
