@@ -11,16 +11,16 @@
 .boardStyle {
   width: 640px;
   height: 640px;
-  background-color: green;
   display: flex;
+  background-color: green;
   flex-wrap: wrap;
 }
 
 .cellStyle{
   width: 80px;
   height: 80px;
-  border: 1px solid black;
   display: flex;
+  border: 1px solid black;
   align-items: center;
   justify-content: center;
 }
