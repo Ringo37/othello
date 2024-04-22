@@ -9,20 +9,20 @@
 }
 
 .boardStyle {
+  display: flex;
+  flex-wrap: wrap;
   width: 640px;
   height: 640px;
-  display: flex;
   background-color: green;
-  flex-wrap: wrap;
 }
 
 .cellStyle {
-  width: 80px;
-  height: 80px;
   display: flex;
-  border: 1px solid black;
   align-items: center;
   justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: 1px solid black;
 }
 
 .stoneStyle {
