@@ -23,6 +23,7 @@ const Home = () => {
     [1, 0],
     [1, 1],
   ];
+
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
@@ -49,8 +50,10 @@ const Home = () => {
       }
     }
   };
+  const point = (a:number)=>board.flat().filter((b)=>b===a).length;
   return (
     <div className={styles.container}>
+      <div className={styles.pointStyle}><p>White:{point(2)}-{point(1)}:Black</p><p>{['','Blackのターン','Whiteのターン'][turnColor]}</p></div>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
@@ -58,7 +61,7 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stoneStyle}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                  style={{ background: color === 1 ? '#000' : color === 2 ?'#fff' : '#ff21ec', width: color ===3 ? '20px': '56px', height: color ===3 ? '20px': '56px'}}
                 />
               )}
             </div>
