@@ -6,10 +6,10 @@ const Home = () => {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 0, 3, 2, 1, 0, 0, 0],
+    [0, 0, 0, 1, 2, 3, 0, 0],
+    [0, 0, 0, 0, 3, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
@@ -91,8 +91,7 @@ const Home = () => {
       console.log(newBoard);
     };
     //ここから実行
-
-    if (newBoard[y][x] === 3 || newBoard[y][x] === 0) {
+    if (newBoard[y][x] === 3 ) {
       for (const direction of directions) {
         if (reversible(x, y, newBoard, turnColor, direction)) {
           reverse(x, y, newBoard, direction);
