@@ -27,24 +27,29 @@ const Home = () => {
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
+    //塗り替える関数
     const reverse = (x: number, y: number, board: number[][], direction: number[]) => {
       for (let i = 1; i < 8; i++) {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
+        //X,Yが0~7以外でブレーク
         if (X < 0 || X >= 8 || Y < 0 || Y >= 8) {
           break;
         }
+        //自分の色以外を塗り替え
         if (board[Y][X] !== turnColor) {
           board[Y][X] = turnColor;
         } else {
           break;
         }
+        //クリックした場所を塗り替え
         board[y][x] = turnColor;
         setTurnColor(2 / turnColor);
         setBoard(board);
       }
     };
-    const reversible = (
+    //おけるかブールで返す関数
+    const placeable = (
       x: number,
       y: number,
       board: number[][],
@@ -54,10 +59,13 @@ const Home = () => {
       for (let i = 1; i < 8; i++) {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
+        //X,Yが0~7以外でブレーク
         if (X < 0 || X >= 8 || Y < 0 || Y >= 8) {
           break;
+          //セルが0か3の時にブレーク
         } else if (board[Y][X] === 0 || board[Y][X] === 3) {
           break;
+          //同じ色かつ距離が1より大きいときにtrueを返す
         } else if (board[Y][X] === color) {
           if (i > 1) {
             return true;
@@ -67,7 +75,9 @@ const Home = () => {
       }
       return false;
     };
-    const check = () => {
+    //候補地の関数
+    const checkPlaceable = () => {
+      //初期化
       for (let x = 0; x < 8; x++) {
         for (let y = 0; y < 8; y++) {
           if (newBoard[y][x] === 3) {
@@ -80,7 +90,8 @@ const Home = () => {
           console.log(newBoard);
           if (newBoard[y][x] === 0) {
             for (const direction of directions) {
-              if (reversible(x, y, newBoard, 2 / turnColor, direction)) {
+              //placeableでtrueのセルを3にする
+              if (placeable(x, y, newBoard, 2 / turnColor, direction)) {
                 newBoard[y][x] = 3;
               }
             }
@@ -93,20 +104,27 @@ const Home = () => {
     //ここから実行
     if (newBoard[y][x] === 3) {
       for (const direction of directions) {
-        if (reversible(x, y, newBoard, turnColor, direction)) {
+        //placeableでtrueのセルをreverseの引数として呼び出し
+        if (placeable(x, y, newBoard, turnColor, direction)) {
           reverse(x, y, newBoard, direction);
         }
       }
-      check();
+      checkPlaceable();
     }
   };
 
-  const point = (a: number) => board.flat().filter((b) => b === a).length;
+  const count = (color: number) => {
+    let result = 0;
+    for (const value of board.flat()) {
+      value === color && result++;
+    }
+    return result;
+  };
   return (
     <div className={styles.container}>
       <div className={styles.pointStyle}>
         <p>
-          White:{point(2)}-{point(1)}:Black
+          White:{count(2)}-{count(1)}:Black
         </p>
         <p>{turnColor === 1 ? 'Black' : 'White'}</p>
       </div>
