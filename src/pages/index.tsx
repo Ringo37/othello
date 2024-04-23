@@ -91,7 +91,7 @@ const Home = () => {
       console.log(newBoard);
     };
     //ここから実行
-    if (newBoard[y][x] === 3 ) {
+    if (newBoard[y][x] === 3) {
       for (const direction of directions) {
         if (reversible(x, y, newBoard, turnColor, direction)) {
           reverse(x, y, newBoard, direction);
