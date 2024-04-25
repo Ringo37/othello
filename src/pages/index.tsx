@@ -33,7 +33,7 @@ const Home = () => {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
         //X,Yが0~7以外でブレーク
-        if (X < 0 || X >= 8 || Y < 0 || Y >= 8) {
+        if ([X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element)) {
           break;
         }
         //自分の色以外を塗り替え
@@ -60,7 +60,7 @@ const Home = () => {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
         //X,Yが0~7以外でブレーク
-        if (X < 0 || X >= 8 || Y < 0 || Y >= 8) {
+        if([X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element)) {
           break;
           //セルが0か3の時にブレーク
         } else if (board[Y][X] === 0 || board[Y][X] === 3) {
@@ -76,7 +76,7 @@ const Home = () => {
       return false;
     };
     //候補地の関数
-    const checkPlaceable = () => {
+    const checkPlaceable = (color:number) => {
       //初期化
       for (let x = 0; x < 8; x++) {
         for (let y = 0; y < 8; y++) {
@@ -91,7 +91,7 @@ const Home = () => {
           if (newBoard[y][x] === 0) {
             for (const direction of directions) {
               //placeableでtrueのセルを3にする
-              if (placeable(x, y, newBoard, 2 / turnColor, direction)) {
+              if (placeable(x, y, newBoard, 2 / color, direction)) {
                 newBoard[y][x] = 3;
               }
             }
@@ -101,6 +101,16 @@ const Home = () => {
       setBoard(newBoard);
       console.log(newBoard);
     };
+
+    const skip = () => {
+      if (count(3, newBoard) === 0) {
+        console.log('skip');
+        setTurnColor(turnColor);
+        checkPlaceable(2 / turnColor);
+      }
+    };
+
+
     //ここから実行
     if (newBoard[y][x] === 3) {
       for (const direction of directions) {
@@ -109,11 +119,12 @@ const Home = () => {
           reverse(x, y, newBoard, direction);
         }
       }
-      checkPlaceable();
+      checkPlaceable(turnColor);
+      skip();
     }
   };
 
-  const count = (color: number) => {
+  const count = (color: number,board:number[][]) => {
     let result = 0;
     for (const value of board.flat()) {
       value === color && result++;
@@ -124,7 +135,7 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.pointStyle}>
         <p>
-          White:{count(2)}-{count(1)}:Black
+          White:{count(2,board)}-{count(1,board)}:Black
         </p>
         <p>{turnColor === 1 ? 'Black' : 'White'}</p>
       </div>

@@ -1,0 +1,16 @@
+const end = ()=>{
+    return true;
+  }
+
+[X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element)
+
+
+const skip = () => {
+      if (count(3, newBoard) === 0) {
+        console.log('skip');
+        setTurnColor(turnColor);
+        checkPlaceable(2 / turnColor);
+      }
+    };
+
+{['', 'Black', 'White'][turnColor]}
