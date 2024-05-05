@@ -28,6 +28,7 @@ const Home = () => {
     console.log(x, y);
 
     const newBoard = structuredClone(board);
+    //X,Yが0~7以外ならtrue
     const checkXY = (X: number, Y: number) => {
       return [X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element);
     };
@@ -132,13 +133,11 @@ const Home = () => {
   //ゲーム終了判定用
   const [gameEnd, setEnd] = useState(false);
 
+  //カウント
   const count = (color: number, board: number[][]) => {
-    let result = 0;
-    for (const value of board.flat()) {
-      value === color && result++;
-    }
-    return result;
+    return board.flat().filter((a) => a === color).length;
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.pointStyle}>
@@ -149,23 +148,20 @@ const Home = () => {
           {gameEnd
             ? `${['白の勝ち', '黒の勝ち', '引き分け'][+(count(1, board) >= count(2, board)) + +(count(1, board) === count(2, board))]}です`
             : `${['', '黒', '白'][turnColor]}の番です`}
-
         </p>
       </div>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
             <div className={styles.cellStyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
-              {color !== 0 && (
-                <div
-                  className={styles.stoneStyle}
-                  style={{
-                    background: color === 1 ? '#000' : color === 2 ? '#fff' : '#ff21ec',
-                    width: color === 3 ? '20px' : '56px',
-                    height: color === 3 ? '20px' : '56px',
-                  }}
-                />
-              )}
+              <div
+                className={styles.stoneStyle}
+                style={{
+                  background: ['transparent', '#000', '#fff', '#ff21ec'][color],
+                  width: ['', '56px', '56px', '20px'][color],
+                  height: ['', '56px', '56px', '20px'][color],
+                }}
+              />
             </div>
           )),
         )}
