@@ -26,13 +26,6 @@ const Home = () => {
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
-    [...Array(8)]
-      .map((_, h) => h)
-      .every((i) => {
-        console.log('T', i);
-        return true;
-      });
-
     const newBoard = structuredClone(board);
     //X,Yが0~7以外ならtrue
     const checkXY = (X: number, Y: number) => {
