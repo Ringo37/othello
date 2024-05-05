@@ -26,10 +26,12 @@ const Home = () => {
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
-    [...Array(8)].map((_, h) => h).every(i=> {
-      console.log('T',)
-      return true;
-    });
+    [...Array(8)]
+      .map((_, h) => h)
+      .every((i) => {
+        console.log('T', i);
+        return true;
+      });
 
     const newBoard = structuredClone(board);
     //X,Yが0~7以外ならtrue
@@ -42,12 +44,13 @@ const Home = () => {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
         //X,Yが0~7以外でブレーク
-        if (!checkXY(X, Y)) {
-          //自分の色以外を塗り替え
-          if (board[Y][X] !== turnColor) {
-            board[Y][X] = turnColor;
-          } else return;
+        if (checkXY(X, Y)) {
+          break;
         }
+        //自分の色以外を塗り替え
+        else if (board[Y][X] !== turnColor) {
+          board[Y][X] = turnColor;
+        } else break;
         //クリックした場所を塗り替え
         board[y][x] = turnColor;
         setTurnColor(2 / turnColor);
