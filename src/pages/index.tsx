@@ -26,14 +26,18 @@ const Home = () => {
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
+
     const newBoard = structuredClone(board);
+    const checkXY = (X: number, Y: number) => {
+      return [X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element);
+    };
     //塗り替える関数
     const reverse = (x: number, y: number, board: number[][], direction: number[]) => {
       for (let i = 1; i < 8; i++) {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
         //X,Yが0~7以外でブレーク
-        if ([X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element)) {
+        if (checkXY(X, Y)) {
           break;
         }
         //自分の色以外を塗り替え
@@ -60,10 +64,10 @@ const Home = () => {
         const X = x + i * direction[0];
         const Y = y + i * direction[1];
         //X,Yが0~7以外でブレーク
-        if([X < 0, X >= 8, Y < 0, Y >= 8].some((element) => element)) {
+        if (checkXY(X, Y)) {
           break;
           //セルが0か3の時にブレーク
-        } else if (board[Y][X] === 0 || board[Y][X] === 3) {
+        } else if ([board[Y][X] === 0, board[Y][X] === 3].some((element) => element)) {
           break;
           //同じ色かつ距離が1より大きいときにtrueを返す
         } else if (board[Y][X] === color) {
@@ -76,7 +80,7 @@ const Home = () => {
       return false;
     };
     //候補地の関数
-    const checkPlaceable = (color:number) => {
+    const checkPlaceable = (color: number) => {
       //初期化
       for (let x = 0; x < 8; x++) {
         for (let y = 0; y < 8; y++) {
@@ -87,7 +91,6 @@ const Home = () => {
       }
       for (let x = 0; x < 8; x++) {
         for (let y = 0; y < 8; y++) {
-          console.log(newBoard);
           if (newBoard[y][x] === 0) {
             for (const direction of directions) {
               //placeableでtrueのセルを3にする
@@ -99,7 +102,6 @@ const Home = () => {
         }
       }
       setBoard(newBoard);
-      console.log(newBoard);
     };
 
     const skip = () => {
@@ -107,9 +109,12 @@ const Home = () => {
         console.log('skip');
         setTurnColor(turnColor);
         checkPlaceable(2 / turnColor);
+        if (count(3, newBoard) === 0) {
+          console.log('END');
+          setEnd(true);
+        }
       }
     };
-
 
     //ここから実行
     if (newBoard[y][x] === 3) {
@@ -124,7 +129,10 @@ const Home = () => {
     }
   };
 
-  const count = (color: number,board:number[][]) => {
+  //ゲーム終了判定用
+  const [gameEnd, setEnd] = useState(false);
+
+  const count = (color: number, board: number[][]) => {
     let result = 0;
     for (const value of board.flat()) {
       value === color && result++;
@@ -135,9 +143,14 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.pointStyle}>
         <p>
-          White:{count(2,board)}-{count(1,board)}:Black
+          黒:{count(1, board)}-{count(2, board)}:白
         </p>
-        <p>{turnColor === 1 ? 'Black' : 'White'}</p>
+        <p>
+          {gameEnd
+            ? `${['白の勝ち', '黒の勝ち', '引き分け'][+(count(1, board) >= count(2, board)) + +(count(1, board) === count(2, board))]}です`
+            : `${['', '黒', '白'][turnColor]}の番です`}
+
+        </p>
       </div>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
