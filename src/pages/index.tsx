@@ -26,12 +26,10 @@ const Home = () => {
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
-    [...Array(8)]
-      .map((_, h) => h)
-      .every((i) => {
-        console.log('T', i);
-        return true;
-      });
+    [...Array(8)].map((_, h) => h).every(i=> {
+      console.log('T',)
+      return true;
+    });
 
     const newBoard = structuredClone(board);
     //X,Yが0~7以外ならtrue
@@ -40,24 +38,21 @@ const Home = () => {
     };
     //塗り替える関数
     const reverse = (x: number, y: number, board: number[][], direction: number[]) => {
-      [...Array(8)]
-        .map((_, h) => h)
-        .every((i) => {
-          const X = x + i * direction[0];
-          const Y = y + i * direction[1];
-          //X,Yが0~7以外でブレーク
-          if (!checkXY(X, Y)) {
-            //自分の色以外を塗り替え
-            if (board[Y][X] !== turnColor) {
-              board[Y][X] = turnColor;
-            } else return false;
-          }
-          //クリックした場所を塗り替え
-              board[y][x] = turnColor;
-              setTurnColor(2 / turnColor);
-              setBoard(board);
-          return true
-        });
+      for (let i = 1; i < 8; i++) {
+        const X = x + i * direction[0];
+        const Y = y + i * direction[1];
+        //X,Yが0~7以外でブレーク
+        if (!checkXY(X, Y)) {
+          //自分の色以外を塗り替え
+          if (board[Y][X] !== turnColor) {
+            board[Y][X] = turnColor;
+          } else return;
+        }
+        //クリックした場所を塗り替え
+        board[y][x] = turnColor;
+        setTurnColor(2 / turnColor);
+        setBoard(board);
+      }
     };
     //おけるかをブールで返す関数
     const placeable = (
