@@ -93,12 +93,12 @@ const Home = () => {
       [...Array(8)].map((_, x) => {
         [...Array(8)].map((_, y) => {
           if (newBoard[y][x] === 0) {
-            for (const direction of directions) {
+            directions.map(([a, b]) => {
               //placeableでtrueのセルを3にする
-              if (placeable(x, y, newBoard, 2 / color, direction)) {
+              if (placeable(x, y, newBoard, 2 / color, [a, b])) {
                 newBoard[y][x] = 3;
               }
-            }
+            });
           }
         });
       });
@@ -119,12 +119,12 @@ const Home = () => {
 
     //ここから実行
     if (newBoard[y][x] === 3) {
-      for (const direction of directions) {
+      directions.map(([a, b]) => {
         //placeableでtrueのセルをreverseの引数として呼び出し
-        if (placeable(x, y, newBoard, turnColor, direction)) {
-          reverse(x, y, newBoard, direction);
+        if (placeable(x, y, newBoard, turnColor, [a, b])) {
+          reverse(x, y, newBoard, [a, b]);
         }
-      }
+      });
       checkPlaceable(turnColor);
       skip();
     }
