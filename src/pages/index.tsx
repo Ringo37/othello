@@ -109,7 +109,7 @@ const Home = () => {
         checkPlaceable(2 / turnColor);
         if (count(3, newBoard) === 0) {
           console.log('END');
-          setEnd(true);
+          setEnd(1);
         }
       }
     };
@@ -128,7 +128,7 @@ const Home = () => {
   };
 
   //ゲーム終了判定用
-  const [gameEnd, setEnd] = useState(false);
+  const [gameEnd, setEnd] = useState(0);
 
   //カウント
   const count = (color: number, board: number[][]) => {
@@ -142,9 +142,12 @@ const Home = () => {
           黒:{count(1, board)}-{count(2, board)}:白
         </p>
         <p>
-          {gameEnd
-            ? `${['白の勝ち', '黒の勝ち', '引き分け'][+(count(1, board) >= count(2, board)) + +(count(1, board) === count(2, board))]}です`
-            : `${['', '黒', '白'][turnColor]}の番です`}
+          {
+            [
+              `${['', '黒', '白'][turnColor]}の番です`,
+              `${['白の勝ち', '黒の勝ち', '引き分け'][+(count(1, board) >= count(2, board)) + +(count(1, board) === count(2, board))]}です`,
+            ][gameEnd]
+          }
         </p>
       </div>
       <div className={styles.boardStyle}>
