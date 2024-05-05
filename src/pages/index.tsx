@@ -53,7 +53,7 @@ const Home = () => {
         setBoard(board);
       }
     };
-    //おけるかブールで返す関数
+    //おけるかをブールで返す関数
     const placeable = (
       x: number,
       y: number,
@@ -83,15 +83,15 @@ const Home = () => {
     //候補地の関数
     const checkPlaceable = (color: number) => {
       //初期化
-      for (let x = 0; x < 8; x++) {
-        for (let y = 0; y < 8; y++) {
+      [...Array(8)].map((_, x) => {
+        [...Array(8)].map((_, y) => {
           if (newBoard[y][x] === 3) {
             newBoard[y][x] = 0;
           }
-        }
-      }
-      for (let x = 0; x < 8; x++) {
-        for (let y = 0; y < 8; y++) {
+        });
+      });
+      [...Array(8)].map((_, x) => {
+        [...Array(8)].map((_, y) => {
           if (newBoard[y][x] === 0) {
             for (const direction of directions) {
               //placeableでtrueのセルを3にする
@@ -100,8 +100,8 @@ const Home = () => {
               }
             }
           }
-        }
-      }
+        });
+      });
       setBoard(newBoard);
     };
 
